@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:login_fb/griddashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +13,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home:HomePage()
+    return const MaterialApp(
+      home: HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -25,29 +28,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   //Init Firebase HERE
-  Futute<FirebaseApp> _initializeFirebase() async{
-    FirebaseApp firebaseApp  =await Firebase.initializeApp();
+  Future<Type> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
     return FirebaseApp;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
         future: _initializeFirebase(),
-        builder: (context, snapshot){
-          if(snapshot.ConnectionState  == ConnectionState.done ) {
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
             return LoginScreen();
           }
-          return const Center(child: CircularProgressIndicator(),
-
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
       ),
     );
   }
 }
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -57,23 +60,24 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   //LoginFunction HERE
-  static Future<User?> loginUsingEmailPassword({required String email, required String password, required BuildContext context) async{
+  static Future<User?> loginUsingEmailPassword(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-    try{
-      UserCredential userCredential  = await auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
       user = userCredential.user;
-    }
-    on FirebaseAuthException catch (a){
-      if (a.code == "user-not-found"){
+    } on FirebaseAuthException catch (a) {
+      if (a.code == "user-not-found") {
         print("No user found!");
       }
     }
     return user;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +86,23 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children:  [
-          const Text("TDU CampusApp",
+        children: [
+          const Text(
+            "TDU CampusApp",
             style: TextStyle(
               color: Colors.cyan,
               fontSize: 30.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const Text("Log-In",
+          const Text(
+            "Log-In",
             style: TextStyle(
               color: Colors.black54,
               fontSize: 50.0,
               fontWeight: FontWeight.bold,
-            ),),
+            ),
+          ),
           const SizedBox(
             height: 44.0,
           ),
@@ -113,32 +120,42 @@ class _LoginScreenState extends State<LoginScreen> {
             obscureText: true,
             decoration: InputDecoration(
               hintText: "Passwort",
-              prefixIcon: Icon(Icons.vpn_key_outlined, color:Colors.black54),
+              prefixIcon: Icon(Icons.vpn_key_outlined, color: Colors.black54),
             ),
           ),
-          const Text("Neu Konto Erstellung",
+          const Text(
+            "Neu Konto Erstellung",
             style: TextStyle(color: Colors.cyan),
           ),
-          const Text("Neu Passwort Erstellung",
+          const Text(
+            "Neu Passwort Erstellung",
             style: TextStyle(color: Colors.cyan),
           ),
           const SizedBox(
-            height: 88.0 ,
+            height: 88.0,
           ),
           Container(
-            width:  double.infinity,
+            width: double.infinity,
             child: RawMaterialButton(
               fillColor: Colors.cyan,
               elevation: 0.0,
               padding: EdgeInsets.symmetric(vertical: 20.0),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)
+                  borderRadius: BorderRadius.circular(20.0)),
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => GridDashboard()));
+              },
+              child: Text(
+                "Login",
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                ),
               ),
-              onPressed: () {},
-              child: Text("Login", style: TextStyle(color: Colors.black54, fontSize: 18.0, ),),),
+            ),
           )
         ],
-
       ),
     );
   }
