@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_fb/main.dart';
 
 import 'aktivitaet.dart';
 import 'kalender.dart';
@@ -52,91 +53,169 @@ class GridDashboard extends StatelessWidget {
     List<Items> myList = [item1, item2, item3, item4, item5, item6];
     var color = 0xff453658;
     return Scaffold(
-      appBar: AppBar(
+      backgroundColor: const Color(0xff392850),
+      /* appBar: AppBar(
         backgroundColor: Color(color),
         title: const Text('Campus App'),
         centerTitle: true,
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.all(16),
-        child: GridView.count(
-            childAspectRatio: 1.0,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+            child: const Text('Ausloggen'),
+          )
+        ],
+      ),*/
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 110,
+          ),
+          Padding(
             padding: const EdgeInsets.only(left: 16, right: 16),
-            crossAxisCount: 2,
-            crossAxisSpacing: 18,
-            mainAxisSpacing: 18,
-            children: myList.map((data) {
-              return Container(
-                decoration: BoxDecoration(
-                    color: Color(color),
-                    borderRadius: BorderRadius.circular(10)),
-                child: GestureDetector(
-                  onTap: () {
-                    if (data == item1) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const Kalender())));
-                    }
-                    if (data == item2) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const Mensa())));
-                    }
-                    if (data == item4) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const Aktivitaet())));
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        data.img,
-                        width: 42,
-                      ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        data.title,
-                        style: GoogleFonts.openSans(
-                            textStyle: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        data.subtitle,
-                        style: GoogleFonts.openSans(
-                            textStyle: const TextStyle(
-                                color: Colors.white38,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      Text(
-                        data.event,
-                        style: GoogleFonts.openSans(
-                            textStyle: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600)),
-                      ),
-                    ],
-                  ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Türkisch-Deutsche Universität ",
+                      style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "CampusApp",
+                      style: GoogleFonts.openSans(
+                          textStyle: const TextStyle(
+                              color: Color(0xffa29aac),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ],
                 ),
-              );
-            }).toList()),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()));
+                      },
+                      child: const Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    IconButton(
+                      alignment: Alignment.topCenter,
+                      icon: Image.asset(
+                        "assets/notification.png",
+                        width: 24,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Flexible(
+            child: GridView.count(
+                childAspectRatio: 1.0,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                crossAxisCount: 2,
+                crossAxisSpacing: 18,
+                mainAxisSpacing: 18,
+                children: myList.map((data) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: Color(color),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (data == item1) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => const Kalender())));
+                        }
+                        if (data == item2) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => const Mensa())));
+                        }
+                        if (data == item4) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => const Aktivitaet())));
+                        }
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            data.img,
+                            width: 42,
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Text(
+                            data.title,
+                            style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            data.subtitle,
+                            style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                    color: Colors.white38,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Text(
+                            data.event,
+                            style: GoogleFonts.openSans(
+                                textStyle: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList()),
+          ),
+        ],
       ),
     );
   }
